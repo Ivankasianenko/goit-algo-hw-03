@@ -14,4 +14,4 @@ today = "2024-01-28"
 result = get_days_from_today("2021-10-09")
 
 if result is not None:
-    print(f"Кількість днів між {today} та 2021-10-09: {result} днів.")
+    print(f"Кількість днів між  {today} та 2021-10-09: {result} днів.")
