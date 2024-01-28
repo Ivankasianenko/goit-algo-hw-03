@@ -9,7 +9,6 @@ def get_numbers_ticket(min_num, max_num, quantity):
         numbers_set.add(random_number)
     return sorted(list(numbers_set))
 
-# Приклад використання:
 min_value = 1
 max_value = 1000
 quantity = 15
