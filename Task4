@@ -1,0 +1,42 @@
+from datetime import datetime, timedelta
+
+def get_upcoming_birthdays(users):
+    today = datetime.today().date()
+    upcoming_birthdays = []
+
+    for user in users:
+        # Конвертуємо рядкову дату народження в об'єкт datetime
+        birthday_date = datetime.strptime(user["birthday"], "%Y.%m.%d").date()
+
+        # Визначаємо дату народження на поточний рік
+        birthday_this_year = birthday_date.replace(year=today.year)
+
+        # Перевіряємо, чи вже минув день народження в цьому році
+        if birthday_this_year < today:
+            # Якщо так, розглядаємо дату на наступний рік
+            birthday_this_year = birthday_this_year.replace(year=today.year + 1)
+
+        # Визначаємо різницю між днем народження та поточним днем
+        days_until_birthday = (birthday_this_year - today).days
+
+        # Перевіряємо, чи день народження відбудеться протягом наступного тижня
+        if 0 <= days_until_birthday <= 7:
+            # Переносимо дату привітання на наступний понеділок, якщо день народження припадає на вихідний
+            if birthday_this_year.weekday() in [5, 6]:
+                monday_diff = (7 - birthday_this_year.weekday()) % 7
+                congratulation_date = (birthday_this_year + timedelta(days=monday_diff)).strftime("%Y.%m.%d")
+            else:
+                congratulation_date = birthday_this_year.strftime("%Y.%m.%d")
+
+            # Додаємо ім'я та дату привітання до результату
+            upcoming_birthdays.append({"name": user["name"], "congratulation_date": congratulation_date})
+
+    return upcoming_birthdays
+
+users = [
+    {"name": "John Doe", "birthday": "1985.01.23"},
+    {"name": "Jane Smith", "birthday": "1990.01.30"}
+]
+
+upcoming_birthdays = get_upcoming_birthdays(users)
+print("Список привітань на цьому тижні:", upcoming_birthdays)
